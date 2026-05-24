@@ -1,0 +1,49 @@
+CREATE DATABASE DrugWarningDb;
+GO
+
+USE DrugWarningDb;
+GO
+
+CREATE TABLE Admins (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Username NVARCHAR(100) NOT NULL UNIQUE,
+    PasswordHash NVARCHAR(256) NOT NULL,
+    FullName NVARCHAR(150) NULL
+);
+GO
+
+CREATE TABLE Medicines (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(200) NOT NULL UNIQUE,
+    Description NVARCHAR(1000) NULL,
+    Usage NVARCHAR(1000) NULL,
+    SideEffects NVARCHAR(1000) NULL,
+    CreatedAt DATETIME NOT NULL DEFAULT GETDATE()
+);
+GO
+
+CREATE TABLE Diseases (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(200) NOT NULL UNIQUE,
+    Description NVARCHAR(1000) NULL,
+    CreatedAt DATETIME NOT NULL DEFAULT GETDATE()
+);
+GO
+
+CREATE TABLE MedicineWarnings (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    MedicineId INT NOT NULL,
+    DiseaseId INT NOT NULL,
+    RiskLevel NVARCHAR(30) NOT NULL,
+    WarningContent NVARCHAR(2000) NOT NULL,
+    Recommendation NVARCHAR(2000) NULL,
+
+    CONSTRAINT FK_MedicineWarnings_Medicines 
+        FOREIGN KEY (MedicineId) REFERENCES Medicines(Id) ON DELETE CASCADE,
+
+    CONSTRAINT FK_MedicineWarnings_Diseases 
+        FOREIGN KEY (DiseaseId) REFERENCES Diseases(Id) ON DELETE CASCADE,
+
+    CONSTRAINT UQ_Medicine_Disease UNIQUE (MedicineId, DiseaseId)
+);
+GO
