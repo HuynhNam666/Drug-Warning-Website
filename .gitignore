@@ -1,0 +1,16 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Config secrets
+appsettings.Production.json
+
+# Node / frontend optional
+node_modules/
