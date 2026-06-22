@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết thuốc</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+        <div class="container">
+
+            <a class="navbar-brand fw-bold" href="index.html">
+                💊 Drug Warning
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+
+                <ul class="navbar-nav ms-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            Trang chủ
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="search.html">
+                            Tra cứu thuốc
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="disease.html">
+                            Bệnh nền
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="guide.html">
+                            Hướng dẫn
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+    </nav>
+
+    <section class="container py-5">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-8">
+
+                <div class="detail-card">
+
+                    <h2 id="medicineName">
+                        Đang tải...
+                    </h2>
+
+                    <hr>
+
+                    <h5>Mô tả thuốc</h5>
+
+                    <p id="medicineDescription">
+                        ...
+                    </p>
+
+                    <h5>Bệnh nền liên quan</h5>
+
+                    <ul id="diseaseList">
+
+                    </ul>
+
+                    <h5>Mức cảnh báo</h5>
+
+                    <div id="warningLevel">
+
+                    </div>
+
+                    <div class="mt-4">
+
+                        <button class="btn btn-warning" onclick="checkWarning()">
+
+                            Kiểm tra cảnh báo
+
+                        </button>
+
+                        <a href="search.html" class="btn btn-secondary">
+
+                            Quay lại
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <footer>
+
+        <div class="container text-center">
+
+            <p>
+                Drug Warning System © 2026
+            </p>
+
+        </div>
+
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script>
+        let currentMedicine = null;
+
+        function escapeHtml(value) {
+            return String(value || "")
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
+        }
+
+        function warningBadge(level) {
+            const map = {
+                Critical: "danger",
+                High: "danger",
+                Medium: "warning text-dark",
+                Low: "success"
+            };
+
+            return `<span class="badge bg-${map[level] || "secondary"} p-2">${escapeHtml(level)}</span>`;
+        }
+
+        function highestRiskLevel(warnings) {
+            const scores = { Critical: 4, High: 3, Medium: 2, Low: 1 };
+            return warnings
+                .map(warning => warning.riskLevel)
+                .sort((a, b) => (scores[b] || 0) - (scores[a] || 0))[0] || "Chưa có cảnh báo";
+        }
+
+        async function loadMedicineDetail() {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get("id") || JSON.parse(localStorage.getItem("medicine") || "null")?.id;
+
+            if (!id) {
+                document.getElementById("medicineName").innerText = "Chưa chọn thuốc";
+                document.getElementById("medicineDescription").innerText = "Vui lòng quay lại trang tra cứu để chọn thuốc.";
+                return;
+            }
+
+            try {
+                currentMedicine = await apiGet(`/Medicines/${id}`);
+                const warnings = await apiGet(`/Warnings?medicineId=${id}`);
+
+                document.getElementById("medicineName").innerText = currentMedicine.name;
+                document.getElementById("medicineDescription").innerText = currentMedicine.description || "Chưa có mô tả.";
+
+                document.getElementById("diseaseList").innerHTML = warnings.length
+                    ? warnings.map(warning => `<li>${escapeHtml(warning.diseaseName)}</li>`).join("")
+                    : `<li class="text-muted">Chưa có bệnh nền liên quan trong dữ liệu.</li>`;
+
+                document.getElementById("warningLevel").innerHTML = warningBadge(highestRiskLevel(warnings));
+            } catch (error) {
+                document.getElementById("medicineName").innerText = "Không tải được chi tiết thuốc";
+                document.getElementById("medicineDescription").innerText = "Hãy kiểm tra backend API tại http://localhost:5000.";
+            }
+        }
+
+        function checkWarning() {
+            window.location.href = currentMedicine
+                ? `search.html?medicine=${encodeURIComponent(currentMedicine.name)}`
+                : "search.html";
+        }
+
+        loadMedicineDetail();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
