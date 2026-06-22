@@ -1,0 +1,134 @@
+@startuml UseCaseTongQuat
+left to right direction
+actor "Bệnh nhân" as Patient
+actor "Quản trị viên" as Admin
+rectangle "Drug Warning Website" {
+  usecase "Tra cứu thuốc theo bệnh nền" as UC1
+  usecase "Xem kết quả cảnh báo" as UC2
+  usecase "AI phân tích nhiều thuốc" as UC3
+  usecase "Xem hướng dẫn sử dụng" as UC4
+  usecase "Đăng nhập admin" as UC5
+  usecase "Quản lý thuốc" as UC6
+  usecase "Quản lý bệnh nền" as UC7
+  usecase "Quản lý cảnh báo" as UC8
+}
+Patient --> UC1
+Patient --> UC2
+Patient --> UC3
+Patient --> UC4
+Admin --> UC5
+Admin --> UC6
+Admin --> UC7
+Admin --> UC8
+UC1 ..> UC2 : <<include>>
+UC6 ..> UC5 : <<include>>
+UC7 ..> UC5 : <<include>>
+UC8 ..> UC5 : <<include>>
+@enduml
+
+@startuml ClassDiagram
+class BaseEntity {
+  +int Id
+}
+class AuditableEntity {
+  +DateTime CreatedAt
+}
+class NamedEntity {
+  +string Name
+  +string Description
+}
+class Admin {
+  +string Username
+  +string PasswordHash
+  +string FullName
+}
+class Medicine {
+  +string Usage
+  +string SideEffects
+}
+class Disease
+class MedicineWarning {
+  +int MedicineId
+  +int DiseaseId
+  +string RiskLevel
+  +string WarningContent
+  +string Recommendation
+}
+class NamedCrudController
+class MedicinesController
+class DiseasesController
+class WarningsController
+class AppDbContext
+class AiAdvisorService
+class RiskLevelHelper
+class DtoMapper
+
+BaseEntity <|-- AuditableEntity
+AuditableEntity <|-- NamedEntity
+BaseEntity <|-- Admin
+BaseEntity <|-- MedicineWarning
+NamedEntity <|-- Medicine
+NamedEntity <|-- Disease
+NamedCrudController <|-- MedicinesController
+NamedCrudController <|-- DiseasesController
+Medicine "1" -- "0..*" MedicineWarning
+Disease "1" -- "0..*" MedicineWarning
+AppDbContext --> Medicine
+AppDbContext --> Disease
+AppDbContext --> MedicineWarning
+AppDbContext --> Admin
+WarningsController --> RiskLevelHelper
+WarningsController --> DtoMapper
+AiAdvisorService --> AppDbContext
+AiAdvisorService --> RiskLevelHelper
+@enduml
+
+@startuml SequenceTraCuu
+actor "Bệnh nhân" as Patient
+participant "Frontend search.html" as FE
+participant "WarningsController" as API
+participant "AppDbContext" as DB
+Patient -> FE: Nhập thuốc, chọn bệnh nền
+FE -> API: GET /api/Warnings/search
+API -> DB: Tìm cảnh báo theo thuốc và bệnh nền
+DB --> API: Danh sách cảnh báo
+API --> FE: WarningSearchResultDto
+FE --> Patient: Hiển thị mức độ, cảnh báo, khuyến nghị
+@enduml
+
+@startuml SequenceAI
+actor "Bệnh nhân" as Patient
+participant "Frontend AI" as FE
+participant "AiAdvisorController" as API
+participant "AiAdvisorService" as AI
+participant "PostgreSQL" as DB
+Patient -> FE: Nhập nhiều thuốc và bệnh nền
+FE -> API: POST /api/AiAdvisor/analyze
+API -> AI: AnalyzeAsync(request)
+AI -> DB: Lấy Medicines, Diseases, MedicineWarnings
+DB --> AI: Dữ liệu thuốc - bệnh nền
+AI -> AI: Chuẩn hóa, so khớp, tính điểm rủi ro
+AI --> API: AiAdvisorResponseDto
+API --> FE: JSON kết quả
+FE --> Patient: Hiển thị tổng hợp rủi ro
+@enduml
+
+@startuml ActivityTraCuu
+start
+:Người dùng mở trang tra cứu;
+:Nhập tên thuốc;
+:Chọn bệnh nền;
+if (Dữ liệu hợp lệ?) then (Có)
+  :Gửi request đến API;
+  :Backend truy vấn database;
+  if (Có cảnh báo?) then (Có)
+    :Hiển thị mức độ rủi ro;
+    :Hiển thị nội dung cảnh báo và khuyến nghị;
+  else (Không)
+    :Thông báo chưa có cảnh báo trong dữ liệu;
+  endif
+else (Không)
+  :Yêu cầu nhập lại;
+endif
+stop
+@enduml

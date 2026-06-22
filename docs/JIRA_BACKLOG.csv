@@ -1,0 +1,86 @@
+Issue Type,Key,Summary,Description,Parent,Acceptance Criteria,Priority
+Epic,EPIC-01,Khảo sát và phân tích yêu cầu,Thu thập nhu cầu bệnh nhân và admin,,Có mô tả bài toán stakeholder yêu cầu chức năng,P1
+Epic,EPIC-02,Thiết kế cơ sở dữ liệu,Thiết kế dữ liệu thuốc bệnh nền cảnh báo,,Có ERD bảng và quan hệ rõ ràng,P1
+Epic,EPIC-03,Xây dựng backend API,Phát triển ASP.NET Core Web API,,API chạy được qua Swagger,P1
+Epic,EPIC-04,Xây dựng frontend bệnh nhân,Giao diện tra cứu và xem cảnh báo,,Người dùng tra cứu được cảnh báo,P1
+Epic,EPIC-05,Quản trị hệ thống,Admin đăng nhập và quản lý dữ liệu,,Admin CRUD được dữ liệu,P1
+Epic,EPIC-06,AI hỗ trợ sàng lọc rủi ro,AI nội bộ phân tích nhiều thuốc bệnh nền,,AI trả tổng hợp rủi ro và gợi ý,P2
+Epic,EPIC-07,Kiểm thử và sửa lỗi,Test API giao diện nghiệp vụ,,Có test case và biên bản kết quả,P1
+Epic,EPIC-08,Bảo mật và phân quyền,Bảo vệ API quản trị bằng JWT,,API admin yêu cầu token hợp lệ,P1
+Epic,EPIC-09,Tài liệu và hướng dẫn chạy,Hoàn thiện README báo cáo hướng dẫn,,Người khác chạy được dự án theo hướng dẫn,P2
+Epic,EPIC-10,Triển khai demo,Chuẩn bị dữ liệu và kịch bản demo,,Demo đầy đủ luồng bệnh nhân và admin,P2
+Story,STORY-01,Là bệnh nhân tôi muốn nhập tên thuốc để tra cứu,Hệ thống cho phép nhập tên thuốc,EPIC-04,Nhập Ibuprofen và chọn bệnh nền để xem kết quả,P1
+Story,STORY-02,Là bệnh nhân tôi muốn chọn bệnh nền,Hệ thống tải danh sách bệnh nền từ database,EPIC-04,Select bệnh nền có dữ liệu PostgreSQL,P1
+Story,STORY-03,Là bệnh nhân tôi muốn xem mức độ cảnh báo,Kết quả có Low Medium High Critical,EPIC-04,Cảnh báo hiển thị badge mức độ,P1
+Story,STORY-04,Là bệnh nhân tôi muốn xem khuyến nghị,Kết quả có nội dung khuyến nghị,EPIC-04,Khuyến nghị hiển thị dưới cảnh báo,P1
+Story,STORY-05,Là bệnh nhân tôi muốn dùng AI nhập nhiều thuốc,AI nhận chuỗi nhiều thuốc,EPIC-06,Nhập nhiều thuốc cách nhau dấu phẩy,P2
+Story,STORY-06,Là bệnh nhân tôi muốn AI phân tích nhiều bệnh nền,AI nhận chuỗi nhiều bệnh nền,EPIC-06,Nhập nhiều bệnh nền và AI so khớp được,P2
+Story,STORY-07,Là admin tôi muốn đăng nhập,Hệ thống xác thực admin bằng JWT,EPIC-08,Đăng nhập admin/123456 nhận token,P1
+Story,STORY-08,Là admin tôi muốn thêm thuốc,Admin nhập và lưu thuốc mới,EPIC-05,Thuốc xuất hiện ở danh sách và tra cứu,P1
+Story,STORY-09,Là admin tôi muốn xóa thuốc,Admin xóa thuốc không còn dùng,EPIC-05,Thuốc bị xóa khỏi database,P2
+Story,STORY-10,Là admin tôi muốn thêm bệnh nền,Admin nhập bệnh nền mới,EPIC-05,Bệnh nền xuất hiện trong select,P1
+Story,STORY-11,Là admin tôi muốn xóa bệnh nền,Admin xóa bệnh nền sai,EPIC-05,Bệnh nền bị xóa khỏi database,P2
+Story,STORY-12,Là admin tôi muốn thêm cảnh báo,Admin liên kết thuốc bệnh nền mức rủi ro,EPIC-05,Tra cứu thấy cảnh báo vừa thêm,P1
+Story,STORY-13,Là admin tôi muốn xóa cảnh báo,Admin loại bỏ cảnh báo sai,EPIC-05,Cảnh báo không xuất hiện sau khi xóa,P2
+Story,STORY-14,Là người dùng tôi muốn xem hướng dẫn,Hệ thống có trang hướng dẫn,EPIC-04,Trang guide hiển thị lưu ý sử dụng,P3
+Story,STORY-15,Là nhóm phát triển tôi muốn test API,Swagger có API rõ ràng,EPIC-07,Test GET POST PUT DELETE thành công,P1
+Story,STORY-16,Là nhóm phát triển tôi muốn có dữ liệu mẫu,Seeder tự thêm dữ liệu,EPIC-02,Chạy lần đầu có thuốc bệnh cảnh báo,P1
+Story,STORY-17,Là nhóm phát triển tôi muốn README,Hướng dẫn chạy rõ ràng,EPIC-09,Người mới chạy được backend frontend,P2
+Story,STORY-18,Là giảng viên tôi muốn xem kiến trúc,Báo cáo có mô hình 3 layer,EPIC-09,Có mô tả Presentation Business Data,P2
+Story,STORY-19,Là admin tôi muốn dashboard thống kê,Dashboard hiển thị số thuốc bệnh cảnh báo,EPIC-05,Số lượng cập nhật theo database,P2
+Story,STORY-20,Là người dùng tôi muốn biết giới hạn y tế,Hệ thống có disclaimer,EPIC-04,Luôn có lưu ý không thay thế bác sĩ,P1
+Task,TASK-01,Viết mô tả bài toán,Nêu vấn đề bệnh nhân có bệnh nền cần tra cứu thuốc,STORY-18,Hoàn tất nội dung mô tả,P2
+Task,TASK-02,Xác định stakeholder,Bệnh nhân admin bác sĩ/dược sĩ nhóm phát triển,STORY-18,Có bảng stakeholder,P2
+Task,TASK-03,Liệt kê yêu cầu chức năng,F01 đến F12,STORY-18,Có bảng yêu cầu,P1
+Task,TASK-04,Liệt kê yêu cầu phi chức năng,Bảo mật hiệu năng dễ dùng an toàn y tế,STORY-18,Có bảng NF,P1
+Task,TASK-05,Thiết kế bảng Admins,Lưu tài khoản quản trị,STORY-16,Có model và DbSet,P1
+Task,TASK-06,Thiết kế bảng Medicines,Lưu thông tin thuốc,STORY-16,Có model và DbSet,P1
+Task,TASK-07,Thiết kế bảng Diseases,Lưu bệnh nền,STORY-16,Có model và DbSet,P1
+Task,TASK-08,Thiết kế bảng MedicineWarnings,Liên kết thuốc và bệnh nền,STORY-16,Có khóa ngoại và unique,P1
+Task,TASK-09,Tạo AppDbContext,Cấu hình EF Core PostgreSQL,STORY-16,Database kết nối được,P1
+Task,TASK-10,Tạo DbSeeder,Seed admin thuốc bệnh cảnh báo,STORY-16,Chạy lần đầu có dữ liệu,P1
+Task,TASK-11,Tạo AuthController,Đăng nhập admin,STORY-07,API trả JWT,P1
+Task,TASK-12,Tạo JwtService,Sinh token có role Admin,STORY-07,Token dùng được cho Authorize,P1
+Task,TASK-13,Tạo PasswordService,Băm và kiểm tra mật khẩu,STORY-07,Đăng nhập đúng mật khẩu,P2
+Task,TASK-14,Tạo MedicinesController,CRUD thuốc,STORY-08,GET POST PUT DELETE chạy,P1
+Task,TASK-15,Tạo DiseasesController,CRUD bệnh nền,STORY-10,GET POST PUT DELETE chạy,P1
+Task,TASK-16,Tạo WarningsController,CRUD cảnh báo và tìm kiếm,STORY-12,Search trả đúng cảnh báo,P1
+Task,TASK-17,Tạo AiAdvisorController,Nhận request AI,STORY-05,POST analyze chạy,P2
+Task,TASK-18,Tạo AiAdvisorService,Tách chuỗi so khớp tính điểm,STORY-06,AI trả risk list,P2
+Task,TASK-19,Tạo trang index,Trang chủ giới thiệu hệ thống,STORY-14,Hiển thị nút tra cứu và AI,P2
+Task,TASK-20,Tạo trang search,Nhập thuốc chọn bệnh nền,STORY-01,Form gọi API search,P1
+Task,TASK-21,Tạo trang warning-result,Hiển thị kết quả cảnh báo,STORY-03,Badge và khuyến nghị rõ ràng,P1
+Task,TASK-22,Tạo trang ai-assistant,Form nhập nhiều thuốc bệnh nền,STORY-05,AI result hiển thị rõ,P2
+Task,TASK-23,Tạo trang login,Đăng nhập admin,STORY-07,Gọi API Auth/login,P1
+Task,TASK-24,Tạo dashboard admin,Thống kê và tab quản lý,STORY-19,Hiển thị số lượng thật,P1
+Task,TASK-25,Tạo quản lý thuốc frontend,Thêm xóa thuốc qua API,STORY-08,Dashboard cập nhật danh sách,P1
+Task,TASK-26,Tạo quản lý bệnh nền frontend,Thêm xóa bệnh nền qua API,STORY-10,Dashboard cập nhật danh sách,P1
+Task,TASK-27,Tạo quản lý cảnh báo frontend,Thêm xóa cảnh báo qua API,STORY-12,Tra cứu thấy cảnh báo mới,P1
+Task,TASK-28,Bổ sung CORS,Cho frontend gọi backend,STORY-15,Không lỗi CORS local,P1
+Task,TASK-29,Cấu hình Swagger,Test API nhanh,STORY-15,Swagger hiển thị token Authorize,P1
+Task,TASK-30,Viết test case đăng nhập,Kiểm tra đúng sai tài khoản,STORY-15,Có kết quả mong đợi,P1
+Task,TASK-31,Viết test case tra cứu,Kiểm tra Ibuprofen + Suy thận,STORY-15,Trả cảnh báo High,P1
+Task,TASK-32,Viết test case AI,Nhập nhiều thuốc bệnh nền,STORY-15,Trả list risks,P2
+Task,TASK-33,Viết test case CRUD thuốc,Thêm xóa thuốc,STORY-15,Dữ liệu thay đổi đúng,P1
+Task,TASK-34,Viết test case CRUD bệnh nền,Thêm xóa bệnh nền,STORY-15,Dữ liệu thay đổi đúng,P1
+Task,TASK-35,Viết test case CRUD cảnh báo,Thêm xóa cảnh báo,STORY-15,Dữ liệu thay đổi đúng,P1
+Task,TASK-36,Thiết kế use case tổng quát,Bệnh nhân admin AI advisor,STORY-18,Có PlantUML,P2
+Task,TASK-37,Thiết kế use case cấp 2,Tra cứu AI quản trị,STORY-18,Có mô tả phân rã,P2
+Task,TASK-38,Thiết kế activity diagram,Luồng tra cứu,STORY-18,Có Activity PlantUML,P2
+Task,TASK-39,Thiết kế sequence diagram,Luồng tra cứu và AI,STORY-18,Có Sequence PlantUML,P2
+Task,TASK-40,Thiết kế class diagram,Model service controller,STORY-18,Có Class PlantUML,P2
+Task,TASK-41,Viết README chạy backend,Hướng dẫn dotnet run,STORY-17,Đọc README chạy được,P2
+Task,TASK-42,Viết README chạy frontend,Hướng dẫn Live Server,STORY-17,Đọc README chạy được,P2
+Task,TASK-43,Viết lưu ý y tế,Không thay thế bác sĩ,STORY-20,Có disclaimer trên web và report,P1
+Task,TASK-44,Chuẩn hóa giao diện,Bootstrap card navbar badge,STORY-04,Giao diện dễ nhìn,P2
+Task,TASK-45,Kiểm tra lỗi JS,Node check syntax,STORY-15,JS không lỗi cú pháp,P1
+Task,TASK-46,Kiểm tra route API,Đúng /api/Medicines /Warnings /AiAdvisor,STORY-15,Frontend gọi đúng API,P1
+Task,TASK-47,Chuẩn bị dữ liệu demo,Thuốc bệnh cảnh báo mẫu,STORY-16,Dữ liệu đủ demo,P2
+Task,TASK-48,Chuẩn bị kịch bản demo,Bệnh nhân admin AI,STORY-20,Kịch bản demo rõ,P2
+Task,TASK-49,Viết báo cáo hoàn thiện,Chương 1-6,STORY-17,Có file Word,P2
+Task,TASK-50,Nén source bàn giao,Tạo zip hoàn thiện,STORY-17,Zip có code và tài liệu,P2
+Bug,BUG-01,Dashboard admin dùng localStorage,Không đồng bộ với PostgreSQL,STORY-19,Đã sửa sang gọi API thật,P1
+Bug,BUG-02,Trang login chưa gọi backend,Đăng nhập không tạo JWT,STORY-07,Đã sửa login qua Auth API,P1
+Bug,BUG-03,Thiếu quản lý cảnh báo trên dashboard,Admin chưa thêm được warning,STORY-12,Đã thêm tab cảnh báo,P1
+Bug,BUG-04,Hàm API thiếu PUT DELETE,Frontend khó quản trị dữ liệu,STORY-15,Đã bổ sung apiPut apiDelete,P2
+Bug,BUG-05,Thiếu thông báo lỗi backend,Người dùng không biết lỗi kết nối,STORY-15,Đã bổ sung alert lỗi,P2
